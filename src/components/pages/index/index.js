@@ -37,9 +37,9 @@ class SlotMachine {
 		this.breakpoints = {
 			desktop: {
 				minWidth: 767.98,
-				cols: 5,
-				rows: 4,
-				iconHeight: 150
+				cols: 6,
+				rows: 5,
+				iconHeight: 120
 			},
 			mobile: {
 				minWidth: 0,
