@@ -12,14 +12,13 @@ class SlotMachine {
 
 		// Кнопки
 		this.spinButton = document.querySelector('.menu__button-spin');
-		this.autoButton = null;
+		this.autoButton = document.querySelector('.menu__button-auto');
 		this.soundButton = document.querySelector('.menu__sound');
-		this.minusButton = document.querySelector('.menu__minus');
-		this.plusButton = document.querySelector('.menu__plus');
+		this.arrowButtons = document.querySelectorAll('.menu__button-arrow');
 
 		// Елементи UI
-		this.balanceElement = document.querySelector('.menu__value-all');
-		this.betElement = document.querySelector('.menu__value-win');
+		this.balanceElement = document.querySelector('.menu__info .number');
+		this.betElement = document.querySelector('.menu__credit .number');
 
 		// Стан гри
 		this.spinCount = 0;
@@ -51,7 +50,7 @@ class SlotMachine {
 				minWidth: 0,
 				cols: 3,
 				rows: 3,
-				iconHeight: 115
+				iconHeight: 105
 			}
 		};
 
@@ -60,8 +59,8 @@ class SlotMachine {
 
 		// Звуки
 		this.sounds = {
-			spin: new Audio('@sound/'),
-			win: new Audio('@sound/win2.mp3'),
+			spin: new Audio('@sound/spin.mp3'),
+			win: new Audio('@sound/win.ogg'),
 			select: new Audio('@sound/select.ogg')
 		};
 
@@ -99,7 +98,8 @@ class SlotMachine {
 						[3, 5, 2, 8],
 						[1, 7, 4, 3],
 						[6, 2, 5, 1],
-						[4, 1, 3, 6]
+						[4, 1, 3, 6],
+						[6, 3, 1, 2]
 					]
 				},
 				{
@@ -108,10 +108,10 @@ class SlotMachine {
 					// Виграшна лінія: рядки 1-2 (горизонтальна лінія посередині)
 					winLine: [1, 1, 1, 1, null],
 					result: [
-						[3, 1, 2, 5],
-						[7, 1, 8, 2],
-						[5, 1, 6, 8],
-						[2, 1, 3, 6],
+						[1, 3, 4, 5],
+						[7, 3, 8, 2],
+						[4, 3, 1, 8],
+						[2, 3, 4, 6],
 						[5, 6, 7, 3]
 					]
 				},
@@ -119,13 +119,13 @@ class SlotMachine {
 					type: 'bigwin',
 					winAmount: 150,
 					// Виграшна лінія: рядки 1-2 (центральні) - діагональ вниз
-					winLine: [1, 1, 1, 2, 2],
+					winLine: [1, 1, 2, 2, 3],
 					result: [
-						[2, 4, 7, 7],
-						[5, 4, 2, 5],
-						[3, 4, 8, 3],
-						[2, 5, 4, 6],
-						[5, 3, 4, 1]
+						[2, 8, 4, 7],
+						[5, 8, 2, 1],
+						[3, 4, 8, 4],
+						[1, 4, 8, 6],
+						[5, 3, 6, 8]
 					]
 				}
 			],
@@ -146,20 +146,20 @@ class SlotMachine {
 					// Виграшна лінія: середній рядок
 					winLine: [1, 1, 1],
 					result: [
-						[2, 1, 5],
-						[7, 1, 2],
-						[6, 1, 8]
+						[2, 3, 5],
+						[7, 3, 2],
+						[4, 3, 8]
 					]
 				},
 				{
 					type: 'bigwin',
 					winAmount: 150,
 					// Виграшна лінія: середній рядок
-					winLine: [1, 1, 1],
+					winLine: [2, 1, 1],
 					result: [
-						[5, 4, 8],
-						[3, 4, 2],
-						[2, 4, 6]
+						[1, 5, 8],
+						[3, 8, 2],
+						[2, 8, 4]
 					]
 				}
 			]
@@ -185,7 +185,7 @@ class SlotMachine {
 		const breakpoint = this.getCurrentBreakpoint();
 		const config = { ...this.breakpoints[breakpoint], breakpoint };
 		if (breakpoint === 'desktop' && window.innerHeight <= 800) {
-			config.iconHeight = 115;
+			config.iconHeight = 110;
 		}
 		return config;
 	}
@@ -205,26 +205,28 @@ class SlotMachine {
 			this.handleSpin();
 		});
 
+		this.autoButton.addEventListener('click', (e) => {
+			e.preventDefault();
+			this.handleSpin();
+		});
+
 		// Обробник кнопки звуку
 		this.soundButton.addEventListener('click', (e) => {
 			e.preventDefault();
 			this.toggleSound();
 		});
 
-		// Обробники кнопок ставки
-		if (this.minusButton) {
-			this.minusButton.addEventListener('click', (e) => {
+		// Обробники стрілок для зміни ставки
+		this.arrowButtons.forEach((button) => {
+			button.addEventListener('click', (e) => {
 				e.preventDefault();
-				this.decreaseBet();
+				if (button.classList.contains('bottom')) {
+					this.decreaseBet();
+				} else {
+					this.increaseBet();
+				}
 			});
-		}
-
-		if (this.plusButton) {
-			this.plusButton.addEventListener('click', (e) => {
-				e.preventDefault();
-				this.increaseBet();
-			});
-		}
+		});
 
 		// Оновлення при зміні розміру вікна
 		window.addEventListener('resize', () => {
@@ -264,7 +266,16 @@ class SlotMachine {
 			// Випадкове зміщення для кожної колонки
 			const randomOffset = Math.floor(Math.random() * this.icons);
 
-			// Додаємо predefined комбінації на початок стрічки
+			// Генеруємо випадкові іконки для стрічки
+			for (let i = 0; i < this.iconsPerReel; i++) {
+				const iconNum = ((i + randomOffset) % this.icons) + 1;
+				const icon = document.createElement('div');
+				icon.className = 'drum__image';
+				icon.innerHTML = `<img src="@img/icon/icon-${iconNum}.png" alt="Icon ${iconNum}">`;
+				strip.appendChild(icon);
+			}
+
+			// Додаємо predefined комбінації в кінець стрічки
 			const results = this.getResultsForCurrentBreakpoint();
 			results.forEach((result) => {
 				const columnIcons = result.result[colIndex];
@@ -277,15 +288,6 @@ class SlotMachine {
 					});
 				}
 			});
-
-			// Генеруємо випадкові іконки для стрічки після predefined
-			for (let i = 0; i < this.iconsPerReel; i++) {
-				const iconNum = ((i + randomOffset) % this.icons) + 1;
-				const icon = document.createElement('div');
-				icon.className = 'drum__image';
-				icon.innerHTML = `<img src="@img/icon/icon-${iconNum}.png" alt="Icon ${iconNum}">`;
-				strip.appendChild(icon);
-			}
 
 			column.appendChild(strip);
 			this.drumSpinner.appendChild(column);
@@ -308,15 +310,12 @@ class SlotMachine {
 	initializePositions() {
 		const columns = this.drumSpinner.querySelectorAll('.drum__column');
 		const iconHeight = this.getIconHeight();
-		// Кількість predefined іконок на початку стрічки (щоб не показувати їх одразу)
-		const results = this.getResultsForCurrentBreakpoint();
-		const predefinedCount = results.reduce((sum, r) => sum + (r.result[0] ? r.result[0].length : 0), 0);
 
 		columns.forEach((column) => {
 			const strip = column.querySelector('.drum__strip');
-			// Початкова позиція — після predefined блоку + випадковий зсув
+			// Початкова позиція - показуємо перші іконки
 			const randomOffset = Math.floor(Math.random() * this.icons) * iconHeight;
-			strip.style.transform = `translateY(-${predefinedCount * iconHeight + randomOffset}px)`;
+			strip.style.transform = `translateY(-${randomOffset}px)`;
 		});
 	}
 
@@ -389,15 +388,14 @@ class SlotMachine {
 	async spin(result) {
 		const columns = this.drumSpinner.querySelectorAll('.drum__column');
 		const duration = 3000;
-		const colDelay = 250;
 
-		// Перша колонка стартує першою і зупиняється першою
+		// Запускаємо анімацію кожної колонки з затримкою
 		const spinPromises = Array.from(columns).map((column, colIndex) => {
 			return new Promise((resolve) => {
 				setTimeout(() => {
-					this.spinColumn(column, result.result[colIndex], duration);
-					setTimeout(resolve, duration);
-				}, colIndex * colDelay);
+					this.spinColumn(column, result.result[colIndex], duration, colIndex);
+					setTimeout(resolve, duration + (colIndex * 100));
+				}, colIndex * 100);
 			});
 		});
 
@@ -405,11 +403,12 @@ class SlotMachine {
 	}
 
 	// Анімація обертання однієї колонки
-	spinColumn(column, targetIcons, duration) {
+	spinColumn(column, targetIcons, duration, colIndex) {
 		const strip = column.querySelector('.drum__strip');
 		const iconHeight = this.getIconHeight();
+		const rows = this.config.rows;
 
-		// Знаходимо позицію потрібної послідовності в стрічці (з початку, де predefined)
+		// Знаходимо позицію потрібної послідовності в стрічці
 		const targetPosition = this.findSequencePosition(strip, targetIcons);
 
 		if (targetPosition === -1) {
@@ -417,17 +416,9 @@ class SlotMachine {
 			return;
 		}
 
-		// Фінальна позиція — показати потрібні іконки
-		const finalOffset = targetPosition * iconHeight;
-
-		// Стартова позиція — після фінальної в стрічці (більший offset)
-		// Стрічка рухатиметься від більшого до меншого translateY = вгору = іконки летять вниз
-		const extraScroll = iconHeight * 20;
-		const startOffset = finalOffset + extraScroll;
-
-		// Скидаємо до стартової позиції
+		// Скидаємо до початкової позиції
 		strip.style.transition = 'none';
-		strip.style.transform = `translateY(-${startOffset}px)`;
+		strip.style.transform = 'translateY(0)';
 
 		// Примусовий reflow
 		strip.offsetHeight;
@@ -435,11 +426,14 @@ class SlotMachine {
 		// Додаємо blur ефект на початку обертання
 		strip.classList.add('active');
 
-		// Запускаємо анімацію — швидкий старт, гальмування з overshoot (проліт і повернення)
-		strip.style.transition = `transform ${duration}ms cubic-bezier(0.25, 0.6, 0.35, 1.1)`;
+		// Фінальна позиція - показати потрібні іконки
+		const finalOffset = targetPosition * iconHeight;
+
+		// Запускаємо анімацію з плавним сповільненням
+		strip.style.transition = `transform ${duration}ms cubic-bezier(0.25, 0.1, 0.25, 1)`;
 		strip.style.transform = `translateY(-${finalOffset}px)`;
 
-		// Видаляємо blur ефект перед зупинкою
+		// Видаляємо blur ефект перед зупинкою (за 500ms до кінця)
 		setTimeout(() => {
 			strip.classList.remove('active');
 		}, duration - 250);
@@ -449,8 +443,8 @@ class SlotMachine {
 	findSequencePosition(strip, targetIcons) {
 		const icons = strip.querySelectorAll('.drum__image img');
 
-		// Шукаємо з початку стрічки (там predefined комбінації)
-		for (let i = 0; i <= icons.length - targetIcons.length; i++) {
+		// Шукаємо з кінця стрічки (там predefined комбінації)
+		for (let i = icons.length - targetIcons.length; i >= 0; i--) {
 			let found = true;
 
 			for (let j = 0; j < targetIcons.length; j++) {
@@ -487,26 +481,18 @@ class SlotMachine {
 		if (result.type === 'bigwin') {
 			this.playSound('win');
 			this.drumSpinner.classList.add('bigwin-animation');
+			this.createWinEffects();
 
-			// Більше флешів для bigwin
-			this.createWinEffects(24);
-
-			// Показуємо "BIG WIN!" текст
-			this.showBigWinText();
-
-			// Малюємо виграшну лінію з невеликою затримкою
-			setTimeout(() => {
-				if (result.winLine) {
-					this.drawWinLine(result.winLine);
-				}
-			}, 300);
+			// Малюємо виграшну лінію
+			if (result.winLine) {
+				this.drawWinLine(result.winLine);
+			}
 
 			setTimeout(() => {
 				this.drumSpinner.classList.remove('bigwin-animation');
-				this.removeBigWinText();
 				this.removeWinLine();
 				this.enableSpinButtons();
-			}, 3000);
+			}, 2000);
 
 		} else if (result.type === 'smallwin') {
 			this.playSound('win');
@@ -659,8 +645,8 @@ class SlotMachine {
 	}
 
 	// Ефекти виграшу
-	createWinEffects(count = 12) {
-		for (let i = 0; i < count; i++) {
+	createWinEffects() {
+		for (let i = 0; i < 12; i++) {
 			setTimeout(() => {
 				const flash = document.createElement('div');
 				flash.className = 'win-flash';
@@ -669,26 +655,7 @@ class SlotMachine {
 				this.drumSpinner.appendChild(flash);
 
 				setTimeout(() => flash.remove(), 600);
-			}, i * 100);
-		}
-	}
-
-	// Показує "BIG WIN!" текст поверх барабанів
-	showBigWinText() {
-		const el = document.createElement('div');
-		el.className = 'bigwin-text';
-		el.textContent = 'BIG WIN!';
-		this.drumSpinner.appendChild(el);
-
-		setTimeout(() => el.classList.add('visible'), 50);
-	}
-
-	// Видаляє "BIG WIN!" текст
-	removeBigWinText() {
-		const el = this.drumSpinner.querySelector('.bigwin-text');
-		if (el) {
-			el.classList.remove('visible');
-			setTimeout(() => el.remove(), 400);
+			}, i * 105);
 		}
 	}
 
@@ -742,6 +709,7 @@ class SlotMachine {
 	// Блокує кнопки спіну
 	disableSpinButtons() {
 		this.spinButton.classList.add('disabled');
+		this.autoButton.classList.add('disabled');
 		this.linesItems.forEach(item => item.classList.add('locked'));
 	}
 
@@ -752,6 +720,7 @@ class SlotMachine {
 		if (this.spinCount >= results.length) return;
 
 		this.spinButton.classList.remove('disabled');
+		this.autoButton.classList.remove('disabled');
 		this.linesItems.forEach(item => item.classList.remove('locked'));
 	}
 
@@ -780,10 +749,10 @@ class SlotMachine {
 	// Оновлення UI
 	updateUI() {
 		if (this.balanceElement) {
-			this.balanceElement.textContent = '$' + this.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+			this.balanceElement.textContent = this.balance.toFixed(2);
 		}
 		if (this.betElement) {
-			this.betElement.textContent = '$' + this.bet.toFixed(2);
+			this.betElement.textContent = this.bet.toFixed(2);
 		}
 	}
 

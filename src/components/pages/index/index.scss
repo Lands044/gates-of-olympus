@@ -1,9 +1,7 @@
 $red: #a01602;
 $gold: #fdc909;
 $bg-gold: #FFA500;
-$purple: #cb2af8;
-$bg-popup: #0251a0;
-$button-popup: #fdc909;
+$purple: #f8612a;
 
 %border {
 	border: 4px solid $gold;
@@ -54,20 +52,21 @@ $button-popup: #fdc909;
 	min-height: 100dvh;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 
-	// @media (max-width:toEm($mobile)) and (pointer: coarse) {
-	// 	align-items: flex-start;
-	// }
+	@media (max-width:toEm($mobile)) and (pointer: coarse) {
+		align-items: flex-start;
+	}
 
 	&__container {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		height: 100%;
+		width: 100%;
 
 		@media (max-width:toEm($mobile)) and (pointer: coarse){
-			// padding-top: 100px;
-			padding-bottom: 80px;
+			padding-top: 40px;
 			flex-direction: column;
 		}
 	}
@@ -82,31 +81,20 @@ $button-popup: #fdc909;
 	&__wrap {
 		width: 100%;
 		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 
-	&__logo {
+	&__amount {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		position: absolute;
-		top: -15%;
-		left: 50%;
-		transform: translateX(-50%);
-		max-width: 300px;
-		width: 100%;
-		z-index: 100;
+		max-width: 600px;
 
 		img {
 			width: 100%;
 			height: 100%;
-		}
-
-		@media (max-width:toEm($mobileSmall)) and (pointer: coarse){
-			top: -22%;
-
-			img {
-				max-width: 220px;
-			}
 		}
 	}
 
@@ -114,45 +102,24 @@ $button-popup: #fdc909;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 15px;
-
-		@media (max-width:toEm($mobile)) and (pointer: coarse){
-			flex-direction: column-reverse; 
-		}
-	}
-}
-
-
-.best {
-	@extend %border;
-
-	&__wrap {
-		@extend %border-wrap;
-		height: 160px;
-		background: $bg-gold;
-		position: relative;
-
-		&::after {
-			position: absolute;
-			content: '';
-			bottom: 5px;
-			left: 50%;
-			transform: translateX(-50%);
-			width: 80%;
-			height: 14px;
-			border-radius: 4px;
-			background-color: #65210c;
-		}
+		gap: 5px;
+		width: 100%;
 	}
 
-	&__title {
-		padding: 5px 10px;
-		text-align: center;
-		text-transform: uppercase;
-		@extend %title-item;
+	&__left,
+	&__right {
+		max-width: 220px;
+		width: 100%;
+	}
+	
+	&__left {
+		
+	}
 
-		span {
-			font-size: 12px;
+	&__logo {
+		img {
+			width: 100%;
+			height: 100%;
 		}
 	}
 }
@@ -167,23 +134,23 @@ $button-popup: #fdc909;
 
 	max-width: 1000px;
 	width: 100%;
-	background: url('../../../assets/img/bg-spin.png') center/contain no-repeat;
+	background-color: $red;
+	// border: 6px solid $gold;
+	box-shadow: 0 0 6px rgba(246, 201, 139, 0.6);
+	padding: 10px;
 	border-radius: 16px;
-
-	@media (max-width:toEm($mobile)) and (pointer: coarse) {
-		background: none;
-	}
 
 	&__spinner {
 		width: 100%;
 		height: 100%;
 		display: grid;
 		grid-template-columns: repeat(6, 1fr);
+		background-color: $red;
 		
 		position: relative;
 		z-index: 10;
-		// border: 6px solid $gold;
-		// box-shadow: 0 0 6px rgba(246, 201, 139, 0.6);
+		border: 6px solid $gold;
+		box-shadow: 0 0 6px rgba(246, 201, 139, 0.6);
 		border-radius: 12px;
 		overflow: hidden;
 
@@ -196,8 +163,8 @@ $button-popup: #fdc909;
 		position: relative;
 		overflow: hidden;
 		z-index: 10;
-		// background-color: #430012;
-		// box-shadow: 0 0 6px rgba(246, 201, 139, 0.6);
+		background: url('../../../assets/img/bg-spin.png') center/cover no-repeat;
+		box-shadow: 0 0 6px rgba(246, 201, 139, 0.6);
 		// Висота для 4 іконок на desktop
 		height: calc(120px * 5);
 
@@ -221,7 +188,7 @@ $button-popup: #fdc909;
 		}
 
 		@media (max-width: toEm($mobileSmall)) and (max-height: toEm(800)) and (pointer: coarse) {
-			height: calc(115px * 3) !important;
+			height: calc(105px * 3) !important;
 		}
 	}
 
@@ -245,7 +212,7 @@ $button-popup: #fdc909;
 		width: 100%;
 		height: 120px;
 		flex-shrink: 0;
-		padding: 20px;
+		padding: 15px;
 
 		@media (max-height: toEm(800)) and (pointer: coarse) {
 			height: 110px;
@@ -253,10 +220,11 @@ $button-popup: #fdc909;
 
 		@media (max-width:toEm($mobile)) and (pointer: coarse){
 			height: 140px;
+			padding: 10px;
 		}
 
 		@media (max-width: toEm($mobileSmall)) and (max-height: toEm(800)) and (pointer: coarse) {
-			height: 115px !important;
+			height: 105px !important;
 		}
 
 		img {
@@ -271,7 +239,7 @@ $button-popup: #fdc909;
 
 // Анімації виграшу
 .bigwin-animation {
-	animation: bigwinShake 0.15s ease-in-out infinite alternate;
+	animation: pulse 0.3s ease-in-out infinite alternate;
 }
 
 .smallwin-animation {
@@ -280,69 +248,10 @@ $button-popup: #fdc909;
 
 @keyframes pulse {
 	from {
-		box-shadow: 0 0 6px rgba(247, 247, 247, 0.6);
+		box-shadow: 0 0 6px rgba(246, 201, 139, 0.6);
 	}
 	to {
-		box-shadow: 0 0 30px rgba(152, 207, 255, 0.9), 0 0 60px rgba(99, 199, 246, 0.5);
-	}
-}
-
-@keyframes bigwinShake {
-	0% {
-		transform: translate(-2px, -1px) scale(1.01);
-		box-shadow: 0 0 20px rgba(255, 200, 0, 0.7), 0 0 60px rgba(255, 140, 0, 0.4);
-	}
-	100% {
-		transform: translate(2px, 1px) scale(1.02);
-		box-shadow: 0 0 40px rgba(255, 200, 0, 1), 0 0 100px rgba(255, 140, 0, 0.7);
-	}
-}
-
-// BIG WIN текст
-.bigwin-text {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%) scale(0.5);
-	z-index: 200;
-	font-size: clamp(2rem, 8vw, 5rem);
-	font-weight: 900;
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-	color: #fff;
-	text-shadow:
-		0 0 10px rgba(255, 200, 0, 1),
-		0 0 30px rgba(255, 140, 0, 0.9),
-		0 0 60px rgba(255, 80, 0, 0.7),
-		0 2px 4px rgba(0, 0, 0, 0.8);
-	pointer-events: none;
-	opacity: 0;
-	transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-	white-space: nowrap;
-
-	&.visible {
-		opacity: 1;
-		transform: translate(-50%, -50%) scale(1);
-		animation: bigwinTextPulse 0.5s ease-in-out 0.3s infinite alternate;
-	}
-}
-
-@keyframes bigwinTextPulse {
-	from {
-		text-shadow:
-			0 0 10px rgba(255, 200, 0, 1),
-			0 0 30px rgba(255, 140, 0, 0.9),
-			0 0 60px rgba(255, 80, 0, 0.7),
-			0 2px 4px rgba(0, 0, 0, 0.8);
-		transform: translate(-50%, -50%) scale(1);
-	}
-	to {
-		text-shadow:
-			0 0 20px rgba(255, 220, 0, 1),
-			0 0 50px rgba(255, 160, 0, 1),
-			0 0 90px rgba(255, 100, 0, 0.9),
-			0 2px 4px rgba(0, 0, 0, 0.8);
-		transform: translate(-50%, -50%) scale(1.06);
+		box-shadow: 0 0 30px rgba(255, 215, 0, 0.9), 0 0 60px rgba(255, 215, 0, 0.5);
 	}
 }
 
@@ -350,7 +259,7 @@ $button-popup: #fdc909;
 .win-fire {
 	position: absolute;
 	inset: 0;
-	// background: url('../../../assets/img/win-fire.webp') center / cover no-repeat;
+	background: url('../../../assets/img/win-fire.webp') center / cover no-repeat;
 	pointer-events: none;
 	z-index: 1;
 	border-radius: 4px;
@@ -502,24 +411,24 @@ $button-popup: #fdc909;
 
 
 .menu {
-	font-family: "Arial Black", Arial, sans-serif;
 	position: fixed;
 	bottom: 0;
 	left: 0;
 	width: 100%;
-	height: 120px;
+	height: 90px;
 	z-index: 10;
-	// background-color: rgba(0, 0, 0, 0.6);
+	background-color: rgba(132, 5, 1, 0.8);
 	color: #fff;
-	padding: 10px 0;
-	text-transform: uppercase;
+	padding: 14px 0;
+	font-weight: 500;
+	font-size: 20px;
 
-	@media (max-width: toEm($pc)) and (pointer: coarse) {
+	@media (max-width:toEm($pc)) and (pointer: coarse){
 		height: auto;
 	}
 
-	@media (max-width: toEm($mobileSmall)) and (pointer: coarse) {
-		height: 150px;
+	@media (max-width:toEm($mobile)) and (pointer: coarse){
+		padding: 0;
 	}
 
 	img {
@@ -532,62 +441,50 @@ $button-popup: #fdc909;
 		align-items: center;
 		justify-content: space-between;
 		height: 100%;
-
-		@media (max-width: toEm($pc)) and (pointer: coarse) {
-			width: 100%;
-			flex-direction: column;
-		}
 	}
 
 	&__left {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		gap: 20px;
+		gap: 40px;
 
-		@media (max-width: toEm($pc)) and (pointer: coarse) {
-			width: 100%;
-			flex-direction: row-reverse;
-		}
-
-		@media (max-width: toEm($mobileSmall)) and (pointer: coarse) {
+		@media (max-width:toEm($mobile)) and (pointer: coarse){
+			flex-direction: column;
+			gap: 10px; 
 			align-items: flex-end;
 		}
 	}
 
-	&__wrap-icon {
+	&__wrap {
+		display: flex;
+		align-items: flex-start;
+		flex-direction: column;
+		justify-content: center;
+
+		@media (max-width:toEm($mobile)) and (pointer: coarse){
+			flex-direction: row;
+			align-items: center;
+			gap: 5px;
+			position: absolute;
+			top: -50%;
+			left: 0;
+		}
+	}
+
+	&__items {
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: flex-start;
 	}
 
-	&__column {
-		display: flex;
-		flex-direction: column;
-
-		@media (max-width: toEm($pc)) and (pointer: coarse) {
-			flex-direction: row;
-		}
-
-		@media (max-width: toEm($mobile)) and (pointer: coarse) {
-			flex-direction: column;
-		}
-
-		@media (max-width: toEm($mobileSmall)) and (pointer: coarse) {
-			flex-direction: row;
-		}
-	}
-
-	&__sound,
-	&__button-spin,
-	&__minus,
-	&__plus {
+	&__settings,
+	&__sound {
 		width: 40px;
 		height: 40px;
 		transition: all 0.3s ease;
 		position: relative;
 
-		@media (max-width: toEm($pc)) and (pointer: coarse) {
+		@media (max-width:toEm($mobile)) and (pointer: coarse){
 			width: 60px;
 			height: 60px;
 		}
@@ -601,72 +498,6 @@ $button-popup: #fdc909;
 		}
 	}
 
-	// button spin with animation
-	&__button-spin {
-		padding: 8px 2px 2px 2px;
-		width: 110px;
-		height: 110px;
-		border-radius: 50%;
-		border: 2px solid #fff;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		img {
-			animation: spin-attention 5s ease-in-out infinite;
-			transform-origin: center;
-			object-fit: contain;
-		}
-
-		@media (max-width:toEm($mobile)) and (pointer: coarse) {
-			width: 90px;
-			height: 90px;
-		}
-
-		@keyframes spin-attention {
-			0% {
-				transform: rotate(0deg);
-			}
-
-			10% {
-				transform: rotate(20deg);
-			}
-
-			20% {
-				transform: rotate(-15deg);
-			}
-
-			30% {
-				transform: rotate(10deg);
-			}
-
-			40% {
-				transform: rotate(0deg);
-			}
-
-			100% {
-				transform: rotate(0deg);
-			}
-		}
-	}
-
-	// disable state for button spin
-	&__button-spin.disabled {
-		pointer-events: none;
-		opacity: 0.6;
-		filter: grayscale(1);
-
-		img {
-			animation-play-state: paused;
-			// filter: grayscale(1);
-		}
-	}
-
-	&__sound {
-		width: 60px;
-		height: 60px;
-	}
-
 	&__sound {
 		&.sound-off {
 			opacity: 0.5;
@@ -675,7 +506,7 @@ $button-popup: #fdc909;
 			// Додаємо перекреслення (хрестик)
 			&::before,
 			&::after {
-				content: "";
+				content: '';
 				position: absolute;
 				top: 50%;
 				left: 50%;
@@ -701,55 +532,67 @@ $button-popup: #fdc909;
 		}
 	}
 
-	&__credit,
-	&__bet {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 10px;
-		font-weight: 700;
-		font-size: 20px;
-		line-height: 120%;
-
-		@media (max-width: toEm($mobile)) and (pointer: coarse) {
-			grid-template-columns: 1fr;
-			gap: 4px;
-		}
+	&__info {
+		display: flex;
+		gap: 5px;
 
 		span {
-			text-align: right;
-			color: yellow;
-
-			@media (max-width: toEm($mobile)) and (pointer: coarse) {
-				text-align: left;
-			}
+			display: inline;
 		}
-	}
-
-	&__value-all,
-	&__value-win {
-		width: 110px;
 	}
 
 	&__bet {
-		@media (max-width: toEm($mobile)) and (pointer: coarse) {
-			margin-top: 15px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 5px;
+	}
+
+	&__credit {
+		padding: 15px 20px;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.2);
+		display: flex;
+		flex-direction: column;
+
+		p {
+			white-space: nowrap;
+			display: inline-block;
+		}
+
+		&-wrap {
+			margin-top: 10px;
+			display: flex;
+			gap: 4px;
 		}
 	}
 
-	&__title {
-		font-size: 28px;
-		font-weight: 700;
-		line-height: 120%;
+	&__arrows {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
 
-		@media (max-width: toEm($pc)) and (pointer: coarse) {
-			display: none;
+	&__button-arrow {
+		width: 40px;
+		height: 40px;
+		padding: 2px;
+		background-color: rgba(0, 0, 0, 0.2);
+
+		&.bottom {
+			transform: rotate(180deg);
+		}
+
+		img {
+			width: 100%;
+			height: 100%;
 		}
 	}
 
 	&__right {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		justify-content: center;
 		gap: 15px;
 		transition: opacity 0.3s ease;
 
@@ -763,37 +606,42 @@ $button-popup: #fdc909;
 			display: inline-block;
 		}
 
-		@media (max-width: toEm($pc)) and (pointer: coarse) {
-			position: absolute;
-			top: -135%;
-			right: 3%;
-		}
-
-		@media (max-width: toEm($tablet)) and (pointer: coarse) {
-			right: 3%;
-			top: -135%;
-		}
-
-		@media (max-width: toEm($mobile)) and (pointer: coarse) {
-			top: -20%;
-			gap: 5px;
-		}
-
-		@media (max-width: toEm($mobileSmall)) and (pointer: coarse) {
-			right: 15px;
+		@media (max-width:toEm($mobileM)) and (pointer: coarse){
+			gap: 0;
 		}
 	}
 
-	&__minus,
-	&__plus {
-		width: 100px;
-		height: 100px;
-		border-radius: 50%;
-		overflow: hidden;
+	&__button-auto,
+	&__button-spin {
+		transition: opacity 0.3s ease, filter 0.3s ease;
 
-		@media (max-width: toEm($mobile)) and (pointer: coarse) {
-			width: 60px;
-			height: 60px;
+		&.disabled {
+			opacity: 0.5;
+			filter: grayscale(0.5);
+			pointer-events: none;
+		}
+	}
+
+	&__button-auto {
+		width: 70px;
+		height: 70px;
+
+		@media (max-width:toEm($mobileSmall)) and (pointer: coarse){
+			width: 35px;
+			height: 35px;
+		}
+	}
+
+	&__button-spin {
+		width: 90px;
+		height: 90px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		@media (max-width:toEm($mobile)) and (pointer: coarse){
+			width: 100px;
+			height: 100px;
 		}
 	}
 }
@@ -852,8 +700,8 @@ $button-popup: #fdc909;
 	}
 
 	&__inner {
-		background-color: $bg-popup;
-		border: 4px solid $button-popup;
+		background-color: $red;
+		border: 4px solid #ffd700;
 		border-radius: 30px;
 		padding: 50px 60px;
 		text-align: center;
@@ -877,7 +725,7 @@ $button-popup: #fdc909;
 	&__title {
 		font-size: 48px;
 		font-weight: 700;
-		color: $button-popup;
+		color: #ffd700;
 		text-shadow: 0 0 20px rgba(255, 215, 0, 0.5),
 					 0 4px 8px rgba(0, 0, 0, 0.5);
 		margin-bottom: 20px;
