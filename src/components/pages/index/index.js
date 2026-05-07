@@ -33,8 +33,8 @@ class SlotMachine {
 		this.isSoundEnabled = true;
 
 		// Фінансові значення
-		this.balance = 1000.00;
-		this.bet = 1.20;
+		this.balance = 100000.00;
+		this.bet = 2.00;
 		this.betStep = 0.60;
 		this.minBet = 0.60;
 		this.maxBet = 48.00;
@@ -115,7 +115,7 @@ class SlotMachine {
 					// Виграшна лінія: центральний рядок (індекс 2 з 5)
 					winLine: [2, 2, 2, 2, 2, 2],
 					result: [
-						[1, 3, 4, 5, 2],
+						[1, 3, 3, 5, 2],
 						[7, 5, 3, 8, 2],
 						[4, 1, 3, 8, 6],
 						[2, 6, 3, 4, 1],
