@@ -164,11 +164,11 @@ class SlotMachine {
 					type: 'bigwin',
 					winAmount: 150,
 					// Виграшна лінія: середній рядок
-					winLine: [2, 1, 1],
+					winLine: [2, 1, 0],
 					result: [
 						[1, 5, 8],
 						[3, 8, 2],
-						[2, 8, 4]
+						[8, 6, 4]
 					]
 				}
 			]

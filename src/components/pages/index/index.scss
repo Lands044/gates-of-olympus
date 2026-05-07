@@ -66,7 +66,7 @@ $purple: #298c01;
 		width: 100%;
 
 		@media (max-width:toEm($mobile)) and (pointer: coarse){
-			padding-top: 40px;
+			padding-top: 20px;
 			flex-direction: column;
 		}
 	}
@@ -219,6 +219,21 @@ $purple: #298c01;
 			width: 100%;
 			height: 100%;
 			scale: 1.35;
+		}
+	}
+
+	&__mobile-logo {
+		display: none;
+
+		@media (max-width:toEm($mobile)) and (pointer: coarse) {
+			display: block;
+			max-width: 400px;
+			width: 100%;
+
+			img {
+				width: 100%;
+				height: 100%;
+			}
 		}
 	}
 }
@@ -687,7 +702,6 @@ $purple: #298c01;
 	width: 100%;
 	height: 120px;
 	z-index: 10;
-	// background-color: rgba(0, 0, 0, 0.6);
 	color: #fff;
 	padding: 10px 0;
 	text-transform: uppercase;
@@ -715,6 +729,10 @@ $purple: #298c01;
 			width: 100%;
 			flex-direction: column;
 		}
+
+		@media (max-width: toEm($mobileSmall)) and (pointer: coarse) {
+			position: relative;
+		}
 	}
 
 	&__left {
@@ -730,6 +748,7 @@ $purple: #298c01;
 
 		@media (max-width: toEm($mobileSmall)) and (pointer: coarse) {
 			align-items: flex-end;
+			gap: 0;
 		}
 	}
 
@@ -845,6 +864,12 @@ $purple: #298c01;
 	&__sound {
 		width: 60px;
 		height: 60px;
+
+		@media (max-width:toEm($mobileSmall)){
+			position: absolute;
+			top: -40%;
+			left: 15px;
+		}
 	}
 
 	&__sound {
@@ -892,7 +917,7 @@ $purple: #298c01;
 
 		@media (max-width: toEm($mobile)) and (pointer: coarse) {
 			grid-template-columns: 1fr;
-			gap: 4px;
+			gap: 0;
 		}
 
 		span:first-child {
@@ -907,7 +932,7 @@ $purple: #298c01;
 
 	&__bet-row {
 		@media (max-width: toEm($mobile)) and (pointer: coarse) {
-			margin-top: 15px;
+			margin-top: 10px;
 		}
 	}
 
@@ -916,16 +941,18 @@ $purple: #298c01;
 		width: 130px;
 	}
 
+	&__center {
+		@media (max-width: toEm(1200)) and (pointer: coarse) {
+			display: none;
+		}
+	}
+
 	&__title {
 		font-size: 22px;
 		font-weight: 900;
 		line-height: 120%;
 		text-transform: uppercase;
 		letter-spacing: 1px;
-
-		@media (max-width: toEm($pc)) and (pointer: coarse) {
-			display: none;
-		}
 	}
 
 	&__bet-display {
@@ -966,7 +993,9 @@ $purple: #298c01;
 		}
 
 		@media (max-width: toEm($mobile)) and (pointer: coarse) {
-			display: none;
+			font-size: 12px;
+			padding-inline: 8px;
+			bottom: -15%;
 		}
 	}
 
