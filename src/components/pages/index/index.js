@@ -19,6 +19,8 @@ class SlotMachine {
 		// Елементи UI
 		this.balanceElement = document.querySelector('.menu__info .number');
 		this.betElement = document.querySelector('.menu__credit .number');
+		this.amountElement = document.querySelector('.game__amount');
+		this.amountValueElement = document.querySelector('.game__amount-value');
 
 		// Стан гри
 		this.spinCount = 0;
@@ -478,12 +480,32 @@ class SlotMachine {
 		return match ? parseInt(match[1]) : 1;
 	}
 
+	// Показ суми виграшу на борді
+	showWinAmount(amount) {
+		if (!this.amountElement || !this.amountValueElement) return;
+
+		this.amountValueElement.textContent = amount.toFixed(2);
+		this.amountElement.classList.remove('win-enter');
+
+		// reflow щоб анімація запустилась заново
+		void this.amountElement.offsetWidth;
+
+		this.amountElement.classList.add('visible', 'win-enter');
+	}
+
+	// Приховати борду
+	hideWinAmount() {
+		if (!this.amountElement) return;
+		this.amountElement.classList.remove('visible', 'win-enter');
+	}
+
 	// Показ результату
 	showResult(result) {
 		if (result.type === 'bigwin') {
 			this.playSound('win');
 			this.drumSpinner.classList.add('bigwin-animation');
 			this.createWinEffects();
+			this.showWinAmount(result.winAmount);
 
 			// Малюємо виграшну лінію
 			if (result.winLine) {
@@ -499,6 +521,7 @@ class SlotMachine {
 		} else if (result.type === 'smallwin') {
 			this.playSound('win');
 			this.drumSpinner.classList.add('smallwin-animation');
+			this.showWinAmount(result.winAmount);
 
 			// Малюємо виграшну лінію
 			if (result.winLine) {
@@ -513,6 +536,7 @@ class SlotMachine {
 
 		} else {
 			// Програш - одразу розблоковуємо кнопки
+			this.hideWinAmount();
 			this.enableSpinButtons();
 		}
 	}
