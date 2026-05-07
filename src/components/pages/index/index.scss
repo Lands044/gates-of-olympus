@@ -77,7 +77,7 @@ $purple: #f8612a;
 	height: max-content;
 	position: relative;
 	z-index: 5;
-	margin-bottom: 60px;
+	margin-bottom: 80px;
 
 	&__wrap {
 		width: 100%;
@@ -177,6 +177,10 @@ $purple: #f8612a;
 		justify-content: space-between;
 		gap: 5px;
 		width: 100%;
+
+		@media (max-width:toEm(1200)) and (pointer: coarse) {
+			justify-content: center;
+		}
 	}
 
 	&__left {
@@ -185,13 +189,19 @@ $purple: #f8612a;
 		justify-content: center;
 	}
 
+	&__right {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		gap: 40px;
+	}
 
 	&__left,
 	&__right {
 		max-width: 220px;
 		width: 100%;
 
-		@media (max-width:toEm($tablet)) and (pointer: coarse) {
+		@media (max-width:toEm(1200)) and (pointer: coarse) {
 			display: none !important;
 		}
 	}
@@ -200,6 +210,15 @@ $purple: #f8612a;
 		img {
 			width: 100%;
 			height: 100%;
+			scale: 1.25;
+		}
+	}
+
+	&__zeus {
+		img {
+			width: 100%;
+			height: 100%;
+			scale: 1.35;
 		}
 	}
 }
@@ -307,6 +326,13 @@ $purple: #f8612a;
 
 	&__toggle-arrow {
 		font-size: 14px;
+	}
+
+	&__poster {
+		img {
+			width: 100%;
+			height: 100%;
+		}
 	}
 }
 
@@ -717,6 +743,8 @@ $purple: #f8612a;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		position: relative;
+		margin-bottom: 30px;
 
 		img {
 			animation: spin-attention 5s ease-in-out infinite;
@@ -870,7 +898,6 @@ $purple: #f8612a;
 		text-align: center;
 		text-transform: uppercase;
 		letter-spacing: 0.5px;
-		margin-top: 4px;
 	}
 
 	&__button-auto {
@@ -879,11 +906,13 @@ $purple: #f8612a;
 		align-items: center;
 		justify-content: center;
 		background: rgba(0, 0, 0, 0.5);
-		border: 2px solid rgba(255, 255, 255, 0.3);
+		border: 2px solid rgb(255, 255, 255);
 		border-radius: 10px;
 		padding: 6px 14px;
 		min-width: 80px;
 		transition: all 0.2s ease;
+		position: absolute;
+		bottom: -10%;
 
 		&:hover {
 			background: rgba(0, 0, 0, 0.7);
