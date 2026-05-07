@@ -280,8 +280,7 @@ $purple: #298c01;
 	}
 
 	&__bet {
-		background: url('../../../assets/img/panel-bg.png') center/cover no-repeat,
-		            linear-gradient(180deg, #f5e8c0 0%, #d4a84b 100%);
+		background: linear-gradient(180deg, #f5e8c0 0%, #d4a84b 100%);
 		border: 3px solid $gold;
 		border-radius: 10px;
 		padding: 10px 14px 12px;
@@ -543,7 +542,6 @@ $purple: #298c01;
 .win-fire {
 	position: absolute;
 	inset: 0;
-	background: url('../../../assets/img/win-fire.webp') center / cover no-repeat;
 	pointer-events: none;
 	z-index: 1;
 	border-radius: 4px;
