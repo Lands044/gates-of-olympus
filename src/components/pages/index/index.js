@@ -15,6 +15,11 @@ class SlotMachine {
 		this.autoButton = document.querySelector('.menu__button-auto');
 		this.soundButton = document.querySelector('.menu__sound');
 		this.arrowButtons = document.querySelectorAll('.menu__button-arrow');
+		this.doubleChanceToggle = document.querySelector('.side-panel__toggle');
+
+		// Double chance стан
+		this.isDoubleChance = false;
+		this.doubleChanceBet = 2.50;
 
 		// Елементи UI
 		this.balanceElement = document.querySelector('.menu__info .number');
@@ -231,6 +236,36 @@ class SlotMachine {
 				}
 			});
 		});
+
+		// Double chance toggle — click
+		if (this.doubleChanceToggle) {
+			let dragStartX = null;
+			let dragMoved = false;
+
+			this.doubleChanceToggle.addEventListener('pointerdown', (e) => {
+				dragStartX = e.clientX;
+				dragMoved = false;
+			});
+
+			this.doubleChanceToggle.addEventListener('pointermove', (e) => {
+				if (dragStartX === null) return;
+				const delta = e.clientX - dragStartX;
+				if (Math.abs(delta) > 10) {
+					dragMoved = true;
+					if (delta > 0 && !this.isDoubleChance) this.setDoubleChance(true);
+					if (delta < 0 && this.isDoubleChance) this.setDoubleChance(false);
+				}
+			});
+
+			this.doubleChanceToggle.addEventListener('pointerup', () => {
+				if (!dragMoved) this.setDoubleChance(!this.isDoubleChance);
+				dragStartX = null;
+			});
+
+			this.doubleChanceToggle.addEventListener('pointercancel', () => {
+				dragStartX = null;
+			});
+		}
 
 		// Оновлення при зміні розміру вікна
 		window.addEventListener('resize', () => {
@@ -770,6 +805,27 @@ class SlotMachine {
 			this.bet = newBet;
 			this.updateUI();
 		}
+	}
+
+	// Вмикає/вимикає Double Chance і змінює ставку
+	setDoubleChance(enabled) {
+		if (this.isDoubleChance === enabled) return;
+
+		this.isDoubleChance = enabled;
+
+		if (enabled) {
+			this.bet = Math.round((this.bet + this.doubleChanceBet) * 100) / 100;
+		} else {
+			this.bet = Math.max(this.minBet, Math.round((this.bet - this.doubleChanceBet) * 100) / 100);
+		}
+
+		if (this.doubleChanceToggle) {
+			this.doubleChanceToggle.setAttribute('aria-pressed', String(enabled));
+			const label = this.doubleChanceToggle.querySelector('.side-panel__toggle-label');
+			if (label) label.textContent = enabled ? 'ON' : 'OFF';
+		}
+
+		this.updateUI();
 	}
 
 	// Оновлення UI
