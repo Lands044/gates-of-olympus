@@ -1,0 +1,296 @@
+{
+	"$comment": "Runtime config for this landing. This file is served as-is from the public folder and is fetched by the page on every load, so editing it changes the landing WITHOUT a rebuild. Reload the page (or let the dev watcher pick it up) and the landing re-renders.",
+	"version": 1,
+	"game": {
+		"balance": 10000,
+		"bet": 2,
+		"betStep": 0.6,
+		"minBet": 0.6,
+		"maxBet": 48,
+		"doubleChanceBet": 2.5,
+		"spins": {
+			"$comment": "Scripted spins, played in order; after the last one the CTA popup opens. type: loss / smallwin / bigwin. result: icon numbers (1-8) per column — desktop is 6 columns x 5 rows, mobile 3 x 3, the lengths must match. winLine: winning row index per column, or null.",
+			"desktop": [
+				{
+					"type": "loss",
+					"winAmount": 0,
+					"winLine": null,
+					"result": [
+						[
+							2,
+							4,
+							1,
+							7,
+							5
+						],
+						[
+							3,
+							5,
+							2,
+							8,
+							1
+						],
+						[
+							1,
+							7,
+							4,
+							3,
+							6
+						],
+						[
+							6,
+							2,
+							5,
+							1,
+							4
+						],
+						[
+							4,
+							1,
+							3,
+							6,
+							2
+						],
+						[
+							6,
+							3,
+							1,
+							2,
+							7
+						]
+					]
+				},
+				{
+					"type": "smallwin",
+					"winAmount": 50,
+					"winLine": [
+						2,
+						2,
+						2,
+						2,
+						2,
+						2
+					],
+					"result": [
+						[
+							1,
+							3,
+							3,
+							5,
+							2
+						],
+						[
+							7,
+							5,
+							3,
+							8,
+							2
+						],
+						[
+							4,
+							1,
+							3,
+							8,
+							6
+						],
+						[
+							2,
+							6,
+							3,
+							4,
+							1
+						],
+						[
+							5,
+							8,
+							3,
+							7,
+							4
+						],
+						[
+							3,
+							6,
+							3,
+							1,
+							5
+						]
+					]
+				},
+				{
+					"type": "bigwin",
+					"winAmount": 150,
+					"winLine": [
+						1,
+						1,
+						2,
+						2,
+						3,
+						3
+					],
+					"result": [
+						[
+							2,
+							8,
+							4,
+							7,
+							3
+						],
+						[
+							5,
+							8,
+							2,
+							1,
+							6
+						],
+						[
+							3,
+							4,
+							8,
+							4,
+							1
+						],
+						[
+							1,
+							4,
+							8,
+							6,
+							2
+						],
+						[
+							5,
+							3,
+							6,
+							8,
+							4
+						],
+						[
+							2,
+							5,
+							1,
+							8,
+							7
+						]
+					]
+				}
+			],
+			"mobile": [
+				{
+					"type": "loss",
+					"winAmount": 0,
+					"winLine": null,
+					"result": [
+						[
+							4,
+							1,
+							7
+						],
+						[
+							5,
+							2,
+							8
+						],
+						[
+							7,
+							4,
+							3
+						]
+					]
+				},
+				{
+					"type": "smallwin",
+					"winAmount": 50,
+					"winLine": [
+						1,
+						1,
+						1
+					],
+					"result": [
+						[
+							2,
+							3,
+							5
+						],
+						[
+							7,
+							3,
+							2
+						],
+						[
+							4,
+							3,
+							8
+						]
+					]
+				},
+				{
+					"type": "bigwin",
+					"winAmount": 150,
+					"winLine": [
+						2,
+						1,
+						0
+					],
+					"result": [
+						[
+							1,
+							5,
+							8
+						],
+						[
+							3,
+							8,
+							2
+						],
+						[
+							8,
+							6,
+							4
+						]
+					]
+				}
+			]
+		}
+	},
+	"cta": {
+		"url": "#",
+		"target": "_self"
+	},
+	"texts": {
+		"popupTitle": "Congratulations!",
+		"popupText": "Ready to continue playing?",
+		"ctaButton": "Download Now",
+		"winLabel": "WIN",
+		"buyFreeSpins": "BUY<br>FREE SPINS",
+		"buyFreeSpinsPrice": "$200",
+		"sideBetLabel": "BET",
+		"doubleChance": "DOUBLE<br>CHANCE TO<br>WIN FEATURE",
+		"toggleOn": "ON",
+		"toggleOff": "OFF",
+		"creditLabel": "Credit",
+		"betLabel": "Bet",
+		"turboHint": "HOLD SPACE FOR TURBO SPIN",
+		"autoplay": "AUTOPLAY"
+	},
+	"sound": {
+		"enabled": true,
+		"volume": 1
+	},
+	"assets": {
+		"$comment": "Values are either a built-in key (a filename under src/assets/img or src/assets/sound, no extension) or a URL. A URL starting with / , ./ , http:// or https:// is used verbatim, so you can drop custom art into the public folder and point at it here.",
+		"logo": "logo",
+		"logoMobile": "logo-mobile",
+		"background": "bg",
+		"poster": "zeus-poster",
+		"sounds": {
+			"spin": "spin",
+			"win": "win",
+			"select": "select"
+		}
+	},
+	"dev": {
+		"$comment": "watch polls this file and re-renders the landing in place when it changes. menu enables the config editor panel — it ships in production builds too, where edits go to the browser's localStorage instead of this file.",
+		"watch": true,
+		"watchInterval": 1500,
+		"menu": true
+	}
+}
